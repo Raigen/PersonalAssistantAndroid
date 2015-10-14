@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import de.falkentavio.speechrecognizer.CustomFont.CustomFontHelper;
+
 import static de.falkentavio.speechrecognizer.R.drawable.textbox;
 
 /**
@@ -43,6 +45,8 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
         debugTxt = (TextView) findViewById(R.id.debugTxt);
         txtText = (TextView) findViewById(R.id.txtText);
         btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+
+        CustomFontHelper.setCustomFont(txtText, "fonts/8bit.ttf", getApplicationContext());
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,7 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void speech(String text) {
-//            engine.setPitch(1);
+            engine.setPitch(1);
 //            engine.setSpeechRate(1);
         engine.speak(text.toString(), TextToSpeech.QUEUE_FLUSH, null, null);
     }

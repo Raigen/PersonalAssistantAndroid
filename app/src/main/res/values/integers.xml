@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="boxPadding">17dip</integer>
+    <dimen name="boxPadding">17dip</dimen>
 </resources>
