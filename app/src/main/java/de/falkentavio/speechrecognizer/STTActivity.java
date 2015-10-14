@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -21,6 +22,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import static de.falkentavio.speechrecognizer.R.drawable.textbox;
+
 /**
  * Created by foellerich on 13.10.2015.
  */
@@ -28,6 +31,7 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
     protected static final int RESULT_SPEECH = 1;
     private ImageButton btnSpeak;
     private TextView txtText;
+    private TextView debugTxt;
     TextToSpeech engine;
 
     @Override
@@ -36,6 +40,7 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
         setContentView(R.layout.speech_activity);
 
         engine = new TextToSpeech(this, this);
+        debugTxt = (TextView) findViewById(R.id.debugTxt);
         txtText = (TextView) findViewById(R.id.txtText);
         btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
 
@@ -68,10 +73,11 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String input = text.get(0);
-                    txtText.setText(input);
+                    debugTxt.setText(input);
                     if (contains(input, new ArrayList<String>(Arrays.asList("spät", "wie", "es", "ist")))) {
                         String date = new SimpleDateFormat("HH:mm").format(new Date());
-                        txtText.setText(input + "\n" + date);
+                        txtText.setText("Es ist " + date + " Uhr");
+                        txtText.setBackground(getResources().getDrawable(textbox));
                         speech("Es ist " + date + " Uhr");
                     }
                 }
