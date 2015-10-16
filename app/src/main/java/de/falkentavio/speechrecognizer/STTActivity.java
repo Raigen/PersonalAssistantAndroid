@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import de.falkentavio.speechrecognizer.Actions.ActionManager;
 import de.falkentavio.speechrecognizer.CustomFont.CustomFontHelper;
 import de.falkentavio.speechrecognizer.Visualizer.TextBoxVisualizer;
 import de.falkentavio.speechrecognizer.Visualizer.VoiceResponse;
@@ -37,6 +38,7 @@ public class STTActivity extends Activity {
     private TextView debugTxt;
     private TextBoxVisualizer textBoxVisualizer;
     private VoiceResponse voice;
+    private ActionManager actionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class STTActivity extends Activity {
         btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
         voice = new VoiceResponse(getApplicationContext());
         textBoxVisualizer = new TextBoxVisualizer(txtText, getApplicationContext());
+        actionManager = new ActionManager();
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,25 +82,13 @@ public class STTActivity extends Activity {
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String input = text.get(0);
+                    String output = actionManager.execute(input);
                     debugTxt.setText(input);
-                    if (contains(input, new ArrayList<String>(Arrays.asList("spät", "wie", "es", "ist")))) {
-                        String date = new SimpleDateFormat("HH:mm").format(new Date());
-                        textBoxVisualizer.setText("Es ist " + date + " Uhr");
-                        voice.speech("Es ist " + date + " Uhr");
-                    }
+                    textBoxVisualizer.setText(output);
+                    voice.speech(output);
                 }
                 break;
             }
         }
-    }
-
-    private boolean contains(String input, ArrayList<String> needles) {
-        boolean returns = true;
-        for (String needle : needles) {
-            if (!input.contains(needle)) {
-                returns = false;
-            }
-        }
-        return returns;
     }
 }

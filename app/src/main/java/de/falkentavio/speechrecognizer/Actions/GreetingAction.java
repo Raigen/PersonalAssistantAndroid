@@ -1,37 +1,37 @@
 package de.falkentavio.speechrecognizer.Actions;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * Created by foellerich on 16.10.2015.
  */
-public class TimeAction implements Action {
+public class GreetingAction implements Action {
+    @Override
     public ArrayList<String> getRecognizer() {
         return new ArrayList<>(Arrays.asList(
-                "spät",
-                "wie",
-                "es",
-                "ist"
+                "hallo",
+                "hi",
+                "grüße",
+                "moin",
+                "hey"
         ));
     }
 
     @Override
     public boolean isActionFitting(String input) {
-        boolean isFitting = true;
+        boolean isFitting = false;
         for (String s : getRecognizer()) {
-            if (!input.toLowerCase().contains(s.toLowerCase())) {
-                isFitting = false;
+            if (input.toLowerCase().contains(s.toLowerCase())) {
+                isFitting = true;
                 break;
             }
         }
         return isFitting;
     }
 
+    @Override
     public String execute() {
-        String date = new SimpleDateFormat("HH:mm").format(new Date());
-        return "Es ist " + date + " Uhr";
+        return "Hi";
     }
 }
