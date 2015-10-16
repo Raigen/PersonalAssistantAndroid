@@ -23,30 +23,32 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.falkentavio.speechrecognizer.CustomFont.CustomFontHelper;
+import de.falkentavio.speechrecognizer.Visualizer.TextBoxVisualizer;
+import de.falkentavio.speechrecognizer.Visualizer.VoiceResponse;
 
 import static de.falkentavio.speechrecognizer.R.drawable.textbox;
 
 /**
  * Created by foellerich on 13.10.2015.
  */
-public class STTActivity extends Activity implements TextToSpeech.OnInitListener {
+public class STTActivity extends Activity {
     protected static final int RESULT_SPEECH = 1;
-    private ImageButton btnSpeak;
     private TextView txtText;
     private TextView debugTxt;
-    TextToSpeech engine;
+    private TextBoxVisualizer textBoxVisualizer;
+    private VoiceResponse voice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ImageButton btnSpeak;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.speech_activity);
 
-        engine = new TextToSpeech(this, this);
         debugTxt = (TextView) findViewById(R.id.debugTxt);
         txtText = (TextView) findViewById(R.id.txtText);
         btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
-
-        CustomFontHelper.setCustomFont(txtText, "fonts/8bit.ttf", getApplicationContext());
+        voice = new VoiceResponse(getApplicationContext());
+        textBoxVisualizer = new TextBoxVisualizer(txtText, getApplicationContext());
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +82,8 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
                     debugTxt.setText(input);
                     if (contains(input, new ArrayList<String>(Arrays.asList("spät", "wie", "es", "ist")))) {
                         String date = new SimpleDateFormat("HH:mm").format(new Date());
-                        txtText.setText("Es ist " + date + " Uhr");
-                        txtText.setBackground(getResources().getDrawable(textbox));
-                        speech("Es ist " + date + " Uhr");
+                        textBoxVisualizer.setText("Es ist " + date + " Uhr");
+                        voice.speech("Es ist " + date + " Uhr");
                     }
                 }
                 break;
@@ -98,21 +99,5 @@ public class STTActivity extends Activity implements TextToSpeech.OnInitListener
             }
         }
         return returns;
-    }
-
-    @Override
-    public void onInit(int status) {
-        Log.d("Speech", "OnInit - Status [" + status + "]");
-        if (status == TextToSpeech.SUCCESS) {
-            Log.d("Speech", "Success!");
-            engine.setLanguage(Locale.GERMAN);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void speech(String text) {
-            engine.setPitch(1);
-//            engine.setSpeechRate(1);
-        engine.speak(text.toString(), TextToSpeech.QUEUE_FLUSH, null, null);
     }
 }
