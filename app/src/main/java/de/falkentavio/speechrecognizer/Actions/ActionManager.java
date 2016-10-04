@@ -15,6 +15,7 @@ public class ActionManager {
 //        context = applicationContext;
         actionList.add(new TimeAction());
         actionList.add(new GreetingAction());
+        actionList.add(new StadtradAction());
     }
 
     public String execute(String input) {
