@@ -20,8 +20,9 @@ import okhttp3.Response;
 
 /**
  * Created by foellerich on 04.10.2016.
+ *
  */
-public class StadtradAction implements Action {
+class StadtradAction implements Action {
 
     private static final String TAG = "StadtradAction";
     private static final String BASE_URL = "https://www.callabike-interaktiv.de/kundenbuchung/hal2ajax_process.php?callee=getMarker&mapstadt_id=75&requester=bikesuche&ajxmod=hal2map&bereich=2&buchungsanfrage=N&webfirma_id=500&searchmode=default";
@@ -31,7 +32,7 @@ public class StadtradAction implements Action {
     @NonNull
     private String runFetch() throws IOException {
         Request request = new Request.Builder()
-                .url(this.BASE_URL)
+                .url(BASE_URL)
                 .build();
         Response response = this.httpClient.newCall(request).execute();
         return response.body().string();
@@ -66,12 +67,12 @@ public class StadtradAction implements Action {
         return myLocation.distanceTo(stationLocation);
     }
 
-    protected static String parseStationName(String source) {
+    private static String parseStationName(String source) {
         return source.replace("&nbsp;", " ").replaceFirst("\\d{4,}\\s", "");
     }
 
     private String t() throws JSONException {
-        ArrayList<JSONObject> nearbyStations = new ArrayList<JSONObject>();
+        ArrayList<JSONObject> nearbyStations = new ArrayList<>();
         String nearestStation = "Keine Räder in der Nähe gefunden";
         float nearestDistance = 10000;
         for(int i = 0; i < this.stations.length(); i++) {
@@ -98,7 +99,7 @@ public class StadtradAction implements Action {
         return nearestStation;
     }
 
-    public StadtradAction() {
+    private StadtradAction() {
         this.httpClient = new OkHttpClient();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -110,13 +111,23 @@ public class StadtradAction implements Action {
                 "Fahrrad",
                 "Bike",
                 "Rad",
-                "nächste"
+                "StadtRad",
+                "citiybike",
+                "Call A Bike",
+                "CallABike"
         ));
     }
 
     @Override
     public boolean isActionFitting(String input) {
-        return true;
+        boolean isFitting = false;
+        for (String s : getRecognizer()) {
+            if (input.toLowerCase().contains(s.toLowerCase())) {
+                isFitting = true;
+                break;
+            }
+        }
+        return isFitting;
     }
 
     @Override
