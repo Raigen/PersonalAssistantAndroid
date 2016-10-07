@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 /**
  * Created by foellerich on 16.10.2015.
+ *
  */
-public interface Action {
-    public ArrayList<String> getRecognizer();
-    public boolean isActionFitting(String input);
-    public String execute();
+interface Action {
+    ArrayList<String> getRecognizer();
+    boolean isActionFitting(String input);
+    String execute();
 }

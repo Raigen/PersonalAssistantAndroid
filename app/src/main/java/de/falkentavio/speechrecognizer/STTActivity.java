@@ -1,36 +1,25 @@
 package de.falkentavio.speechrecognizer;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
 
 import de.falkentavio.speechrecognizer.Actions.ActionManager;
-import de.falkentavio.speechrecognizer.CustomFont.CustomFontHelper;
 import de.falkentavio.speechrecognizer.Visualizer.TextBoxVisualizer;
 import de.falkentavio.speechrecognizer.Visualizer.VoiceResponse;
 
-import static de.falkentavio.speechrecognizer.R.drawable.textbox;
-
 /**
  * Created by foellerich on 13.10.2015.
+ *
  */
 public class STTActivity extends Activity {
     protected static final int RESULT_SPEECH = 1;

@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 /**
  * Created by foellerich on 16.10.2015.
+ *
  */
 
 public class ActionManager {
 //    private Context context;
-    ArrayList<Action> actionList = new ArrayList<Action>();
+    private ArrayList<Action> actionList = new ArrayList<>();
     public ActionManager() {
 //        context = applicationContext;
         actionList.add(new TimeAction());

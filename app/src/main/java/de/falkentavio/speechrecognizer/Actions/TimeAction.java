@@ -4,11 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by foellerich on 16.10.2015.
+ *
  */
-public class TimeAction implements Action {
+class TimeAction implements Action {
     public ArrayList<String> getRecognizer() {
         return new ArrayList<>(Arrays.asList(
                 "spät",
@@ -31,7 +33,7 @@ public class TimeAction implements Action {
     }
 
     public String execute() {
-        String date = new SimpleDateFormat("HH:mm").format(new Date());
+        String date = new SimpleDateFormat("HH:mm", Locale.GERMANY).format(new Date());
         return "Es ist " + date + " Uhr";
     }
 }

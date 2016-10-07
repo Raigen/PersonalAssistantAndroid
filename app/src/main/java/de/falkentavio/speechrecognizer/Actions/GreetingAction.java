@@ -5,8 +5,9 @@ import java.util.Arrays;
 
 /**
  * Created by foellerich on 16.10.2015.
+ *
  */
-public class GreetingAction implements Action {
+class GreetingAction implements Action {
     @Override
     public ArrayList<String> getRecognizer() {
         return new ArrayList<>(Arrays.asList(

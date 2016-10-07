@@ -99,7 +99,7 @@ class StadtradAction implements Action {
         return nearestStation;
     }
 
-    private StadtradAction() {
+    StadtradAction() {
         this.httpClient = new OkHttpClient();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
